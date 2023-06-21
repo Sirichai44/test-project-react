@@ -1,0 +1,149 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.App{
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right,#6eda78, #ffa200);
+}
+.Container{
+  display: flex;
+  max-width: 1000px;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px 20px;
+}
+
+.name Input, .surname Input{
+  width: 300px;
+}
+.nation{
+  width: 300px;
+}
+.Container div{
+  margin: 3px 0;
+}
+
+.id span{
+  padding: 10px;
+  font-size: 16px;
+}
+.id Input{
+  width: 130px;
+}
+label{
+  margin-right: 5px;
+}
+.Container div:nth-child(1){
+  display: flex;
+  margin-right: 5px;
+  align-items: center;
+  justify-content: center;
+}
+.names{
+  margin-right: 10px;
+}
+.Container div:nth-child(2){
+  display: flex;
+  align-items: center;
+}
+.nation label{
+  width: 60px;
+  margin-left: 20px;
+}
+.Container div:nth-child(4){
+  display: flex;
+  align-items: center;
+  margin-right: 100px;
+}
+.Container div:nth-child(5){
+  display: flex;
+  align-items: center;
+  margin-right: 100px;
+}
+.phones{
+  width: 75px;
+}
+.phone span{
+  padding: 10px;
+}
+.Container div:nth-child(5) Input{
+  width: 300px;
+}
+.Container div:nth-child(6){
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+.id2 label{
+  width: 140px;
+}
+.Container div:nth-child(7){
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+}
+.btn-form{
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin-right: 100px;
+}
+.salary label{
+  width: 200px;
+}
+.btn-form button{
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  border: 0;
+}
+Input::-webkit-outer-spin-button,Input::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+}
+h1{
+  position: absolute;
+  left: 40px;
+  top: 30px;
+}
+
+.home{
+  position: absolute;
+  right: 5px;
+  top: 60px;
+  width: 120px;
+  height: 30px;
+}
+.Container div:nth-child(1) .ant-select{
+  width: 100px;
+}
+.dataTable{
+  position: absolute;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+}
+button{
+  cursor: pointer;
+}
+.clear:hover, .submit:hover{
+  background-color: #ffa200;
+}
+.clear:active, .submit:active{
+  background-color: #6eda78;
+}
+
+
+
+

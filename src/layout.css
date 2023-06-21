@@ -1,0 +1,44 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.layout{
+    background: linear-gradient(to right,#6eda78, #ffa200);
+}
+
+.content{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.box{
+    width: 350px;
+    height: 150px;
+    margin: 0 15px;
+    background-color: white;
+}
+.text{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px 15px 0px;
+}
+h3{
+    color: black;
+}
+p{
+    position: absolute;
+    bottom: 20px;
+    color: #5e5c5c;
+}
+
+.lang-c{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
