@@ -157,3 +157,23 @@
     margin-top: 25px;
     transform: translateX(5%);
 }
+
+.t1{
+    position: absolute;
+    bottom: 0;
+    background-color: #6eda78;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: white;
+}
+.t2{
+    position: absolute;
+    bottom: 0;
+    left: 200px;
+    background-color: #6eda78;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: white;
+}

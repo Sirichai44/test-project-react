@@ -63,8 +63,10 @@ const Test1 = () => {
       <div id="top">
         <div className="panel">
           <div className="boxt boxt1" onClick={handlePrevious}>
+            <p className="t1">{t('Move shape')}</p>
             <div className="triangle-left"></div>
           </div>
+
           <div>
             <div
               className="boxt boxt2"
@@ -84,11 +86,14 @@ const Test1 = () => {
                 }
               }}
             >
+              <p className="t2">{t('Move position')}</p>
               <div className="triangle-up"></div>
               <div className="triangle-down"></div>
             </div>
           </div>
+
           <div className="boxt boxt4" onClick={handleNext}>
+            <p className="t1">{t('Move shape')}</p>
             <div className="triangle-right"></div>
           </div>
         </div>

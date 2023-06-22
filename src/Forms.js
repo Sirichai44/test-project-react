@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Input, Select, Form, Radio, Table, Button } from 'antd';
+import { Input, Select, Form, Radio, Table, Button, Modal } from 'antd';
 import './Forms.css';
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { store } from "./store/Store";
-import { addData,deleteData } from "./store/dataSlice";
+import { addData, deleteData, updateData } from "./store/dataSlice";
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
 
@@ -15,16 +14,16 @@ function Forms(){
       i18n.changeLanguage(value);
     };
 
-    const [typeName, setTypeName] = useState('');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [date, setDate] = useState('');
-    const [typeNation, setNation] = useState('');
-    const [typeSex, setTypeSex] = useState('');
-    const [salary, setSalary] = useState('');
-    const [phone, setPhone] = useState({ phone1: '66', phone2: '' });
-    const [idcard, setId] = useState({ id1_1: '', id1_2: '', id1_3: '', id1_4: '', id1_5: '' });
-    const [id2, setId2] = useState('');
+    const [typeName, setTypeName] = useState(JSON.parse(localStorage.getItem('colData')).typeName || '');
+    const [name, setName] = useState(JSON.parse(localStorage.getItem('colData')).name || '');
+    const [surname, setSurname] = useState(JSON.parse(localStorage.getItem('colData')).surname || '');
+    const [date, setDate] = useState(JSON.parse(localStorage.getItem('colData')).date || '');
+    const [typeNation, setNation] = useState(JSON.parse(localStorage.getItem('colData')).typeNation || '');
+    const [typeSex, setTypeSex] = useState(JSON.parse(localStorage.getItem('colData')).typeSex || '');
+    const [salary, setSalary] = useState(JSON.parse(localStorage.getItem('colData')).salary || '');
+    const [phone, setPhone] = useState(JSON.parse(localStorage.getItem('colData')).phone || { phone1: '66', phone2: '' });
+    const [idcard, setId] = useState(JSON.parse(localStorage.getItem('colData')).idcard || { id1_1: '', id1_2: '', id1_3: '', id1_4: '', id1_5: '' });
+    const [id2, setId2] = useState(JSON.parse(localStorage.getItem('colData')).id2 || '');
 
 
     const counts = useSelector((state) => state.items.items)
@@ -43,37 +42,78 @@ function Forms(){
         setId2('');
     };
 
+    const [data, setData] = useState([]);
+    const [editingData, setEditingData] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleEdit = (record) => {
+        // console.log(record);
+        setEditingData(record);
+        setIsModalVisible(true);
+    };
+    
+    const handleSave = () => {
+        dispatch(updateData({ key: editingData.key, newData: editingData }));
+        setIsModalVisible(false);
+    };
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditingData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+    };
+
     const columns = [
         {
           key: "1",
           title: "ชื่อ",
           dataIndex: "name",
           editable: true,
+          sorter:(a,b) => a.name - b.name
         },
         {
           key: "2",
           title: "เพศ",
           dataIndex: "typeSex",
           editable: true,
+          sorter:(a,b) => a.typeSex - b.typeSex
         },
         {
           key: "3",
           title: "หมายเลขโทรศัพท์มือถือ",
           dataIndex: "phone",
           editable: true,
+          sorter:(a,b) => a.phone - b.phone
         },
         {
           key: "4",
           title: "สัญชาติ",
           dataIndex: "typeNation",
           editable: true,
+          sorter:(a,b) => a.typeNation - b.typeNation
         },
         {
           key: "5",
           title: "จัดการ",
-          render: ''
+          render: (_, record) => (
+            <div>
+                <Button  onClick={() => handleEdit(record)} size="small">
+                แก้ไข
+                </Button>
+                <Button
+                    onClick={() => handleDelete(record.key)}
+                    danger
+                    size="small"
+                >
+                    ลบ
+                </Button>
+            </div>
+            )
         },
     ];
+
 
     useEffect(() => {
         const newcounts = {
@@ -117,7 +157,7 @@ function Forms(){
     const handleAddData = () => {
         const newId = counts.length + 1;
         const newData = {
-            id: newId,
+            key: newId,
             typeName,
             name,
             surname,
@@ -133,7 +173,9 @@ function Forms(){
         dispatch(addData(newData));
         clearBtn();
     };
-
+    const handleDelete = (key) => {
+        dispatch(deleteData(key));
+    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
@@ -163,7 +205,7 @@ function Forms(){
     
     return(
         <div>
-            <Form className="form-container">
+            <Form onfi className="form-container">
                 <div className='App'>
                     <h1>{t('Form & Table')}</h1>
                     <div className='Container'>
@@ -320,13 +362,62 @@ function Forms(){
             <Table
                 className="dataTable"
                 columns={columns}
-                dataSource={counts.map((data) => ({ ...data, key: data.id }))}
+                dataSource={counts}
                 rowSelection={{
                     type: 'checkbox',
                 }}
                 pagination={paginationConfig}
 
-            />
+            >
+            </Table>
+            <Modal
+                title="แก้ไขข้อมูล"
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                onOk={handleSave}
+            >
+                <label>ชื่อ:</label><br></br>
+                <Input
+                    name="name"
+                    value={editingData?.name}
+                    onChange={handleChange}
+                />
+
+                <label>เพศ:</label><br></br>
+                <Radio.Group 
+                    className='radio' 
+                    onChange={(e) => setTypeSex(e.target.value)}
+                >
+                    <Radio value='ผู้ชาย'>ผู้ชาย</Radio>
+                    <Radio value='ผู้หญิง'>ผู้หญิง</Radio>
+                    <Radio value='ไม่ระบุ'>ไม่ระบุ</Radio>
+                </Radio.Group><br></br>
+
+                <label>สัญชาติ:</label><br></br>
+                <Select
+                    style={{ width: 200 }}
+                    placeholder='-- กรุณาเลือก --'
+                    className='sex'
+                    onChange={(value) => {
+                        setEditingData((prevData) => ({
+                          ...prevData,
+                          typeNation: value,
+                        }));
+                    }}
+                    value={editingData?.typeNation}
+                >
+                    {nations.map((option, index) =>{
+                        return <Select.Option key={index} value={option}></Select.Option>
+                    })}
+                </Select><br></br>
+
+                <label>หมายเลขโทรศัพท์มือถือ:</label>
+                <Input
+                    name="phone"
+                    value={editingData?.phone}
+                    onChange={handleChange}
+                />
+            </Modal>
 
         </div>
         
