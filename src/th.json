@@ -5,5 +5,8 @@
 
   "Layout & Style": "การจัดการหน้าเว็บ",
   "Connect API": "การเชื่อต่อ API",
-  "Form & Table": "การจัดการหน้าฟอร์ม"
+  "Form & Table": "การจัดการหน้าฟอร์ม",
+
+  "Move shape":"เลื่อนรูปแบบ",
+  "Move position":"เปลี่ยนตำแหน่ง"
 }
